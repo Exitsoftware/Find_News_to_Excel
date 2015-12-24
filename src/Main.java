@@ -318,8 +318,8 @@ public class Main {
 		System.out.println("Excel Input Done");
 	}
 
-	public static void main(String[] args) {
-		Main main = new Main();
-		main.daumStart();
-	}
+//	public static void main(String[] args) {
+//		Main main = new Main();
+//		main.daumStart();
+//	}
 }
