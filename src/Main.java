@@ -89,7 +89,6 @@ public class Main {
 				NodeList titleList = element.getElementsByTagName("title");
 				Element titleElmnt = (Element) titleList.item(0);
 				Node title = titleElmnt.getFirstChild();
-//				System.out.println(title.getNodeValue());
 				line.add(title.getNodeValue());
 				
 
@@ -98,7 +97,6 @@ public class Main {
 						.getElementsByTagName("description");
 				Element descriptionElmnt = (Element) descriptionList.item(0);
 				Node description = descriptionElmnt.getFirstChild();
-//				System.out.println(description.getNodeValue());
 				line.add(description.getNodeValue());
 				
 
@@ -106,7 +104,6 @@ public class Main {
 				NodeList dateList = element.getElementsByTagName("pubDate");
 				Element dateElmnt = (Element) dateList.item(0);
 				Node date = dateElmnt.getFirstChild();
-//				System.out.println(date.getNodeValue());
 				line.add(date.getNodeValue());
 				
 
@@ -115,7 +112,6 @@ public class Main {
 						.getElementsByTagName("originallink");
 				Element linkElmnt = (Element) linkList.item(0);
 				Node link = linkElmnt.getFirstChild();
-//				System.out.println(link.getNodeValue());
 				line.add(link.getNodeValue());
 
 				System.out.println("??"+i);
@@ -123,24 +119,21 @@ public class Main {
 
 			}
 			System.out.println("testing");
-//			output();
 			excelInput();
 			excelOutput();
 
-			// InputStreamReader isr = new
-			// InputStreamReader(url.openConnection().getInputStream(),
-			// "UTF-8");
-			// System.out.println(isr.toString());
 		} catch (Exception ex) {
 			System.out.println(ex);
 		}
 	}
 
-	public void daumStart() {
+
+
+	public void daumStart(String query) {
 		try {
-			System.out.print("검색할 단어를 입력하세요 : ");
-			Scanner s = new Scanner(System.in);
-			query = s.next();
+			// System.out.print("검색할 단어를 입력하세요 : ");
+			// Scanner s = new Scanner(System.in);
+			// query = s.next();
 			String address = "https://apis.daum.net/search/board?apikey=884e32eb590e5137ff5093107c75a9cf&q="
 					+ query + "카카오톡&output=xml";
 			
@@ -298,13 +291,6 @@ public class Main {
 			Map<String, Object> map = new HashMap<String, Object>();
 			
 			ArrayList<String> lines = resultString.get(i);
-			
-//			lines = resultString.get(i).split("\\$");
-//			System.out.println(lines[0]);
-//			for(String line : lines){
-//				System.out.println(line);
-//			}
-//			System.out.println("lines size : " + lines.length);
 			
 			map.put("title", lines.get(0));
 			map.put("link", lines.get(3));
