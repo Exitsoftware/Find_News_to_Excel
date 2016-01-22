@@ -49,13 +49,13 @@ public class Main {
 	
 	
 
-	public void start() {
+	public void naverStart(String query, String save_name) {
 		try {
-			System.out.print("검색할 단어를 입력하세요 : ");
-			Scanner s = new Scanner(System.in);
-			query = s.next();
+//			System.out.print("검색할 단어를 입력하세요 : ");
+//			Scanner s = new Scanner(System.in);
+//			query = s.next();
 			String address = "http://openapi.naver.com/search?key=41e7b6581f7c9d85d41271a9033527d1&query="
-					+ query + "&target=news&start=1&display=10";
+					+ query + "&target=news&start=1&display=100&ds=2000.01.01&de=2001.01.01";
 			
 			
 //			URL url = new URL(address);
@@ -120,7 +120,7 @@ public class Main {
 			}
 			System.out.println("testing");
 			excelInput();
-			excelOutput();
+			excelOutput(save_name);
 
 		} catch (Exception ex) {
 			System.out.println(ex);
@@ -129,13 +129,13 @@ public class Main {
 
 
 
-	public void daumStart(String query) {
+	public void daumStart(String query, String save_name) {
 		try {
 			// System.out.print("검색할 단어를 입력하세요 : ");
 			// Scanner s = new Scanner(System.in);
 			// query = s.next();
 			String address = "https://apis.daum.net/search/board?apikey=884e32eb590e5137ff5093107c75a9cf&q="
-					+ query + "카카오톡&output=xml";
+					+ query + "&output=xml";
 			
 
 			Document document = DocumentBuilderFactory.newInstance()
@@ -189,7 +189,7 @@ public class Main {
 			}
 			System.out.println("testing");
 			excelInput();
-			excelOutput();
+			excelOutput(save_name);
 
 		} catch (Exception ex) {
 			System.out.println(ex);
@@ -197,11 +197,11 @@ public class Main {
 	}
 	
 	
-	public void excelOutput() {
+	public void excelOutput(String save_name) {
 		try {
 			// WorkBook 생성
 			WritableWorkbook wb = Workbook.createWorkbook(new File(
-					"ExcelWriteSample.xls"));
+					save_name+".xls"));
 
 			// WorkSheet 생성
 			WritableSheet sh = wb.createSheet("네이버", 0);
@@ -284,8 +284,6 @@ public class Main {
 	public void excelInput(){
 		System.out.println("Excel Input Start");
 		data = new ArrayList<Map<String, Object>>();
-		
-		
 		
 		for(int i = 0; i < resultString.size(); i++){
 			Map<String, Object> map = new HashMap<String, Object>();
