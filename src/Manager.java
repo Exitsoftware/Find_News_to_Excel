@@ -10,9 +10,12 @@ import javax.swing.JTextField;
 import javax.swing.*;
 
 public class Manager extends JFrame{
+
+	public static JFileChooser fileChooser = new JFileChooser();
+
 	Manager(){
 		JLabel title = new JLabel("검색어를 입력해 주세요.",JLabel.CENTER);
-		JLabel save_title = new JLabel("저장이름을 입력해 주세요.",JLabel.CENTER);
+		JLabel save_title = new JLabel("결과물 몇 백개를 뽑을까요?",JLabel.CENTER);
 		
 		JButton btn_apply = new JButton("확인");
 		JButton btn_cancle = new JButton("취소");
@@ -43,9 +46,16 @@ public class Manager extends JFrame{
 		btn_apply.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String query = input_search.getText();
-				String save_name = input_savename.getText();
-				m.naverStart(query, save_name);
+
+				fileChooser.setDialogTitle("Save file");
+				fileChooser.addChoosableFileFilter(new MyFilter("xlsx", "Excel File"));
+				int userSelection = fileChooser.showSaveDialog(null);
+				if(userSelection == JFileChooser.APPROVE_OPTION) {
+					String query = input_search.getText();
+					String count = input_savename.getText();
+					m.naverStart(query, count, fileChooser);
+				}
+
 			}
 		});
 		

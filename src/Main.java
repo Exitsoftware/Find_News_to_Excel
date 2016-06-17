@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import javax.swing.*;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import jxl.Workbook;
@@ -33,6 +34,7 @@ public class Main {
 	ArrayList<ArrayList<String>> resultString = new ArrayList<ArrayList<String>>();
 	List<Map<String, Object>> data;
 	String query;
+//	public static JFileChooser fileChooser = new JFileChooser();
 
 	public void output() {
 		try {
@@ -49,159 +51,82 @@ public class Main {
 	
 	
 
-	public void naverStart(String query, String save_name) {
-		try {
+	public void naverStart(String query, String c, JFileChooser fileChooser) {
+
 //			System.out.print("검색할 단어를 입력하세요 : ");
 //			Scanner s = new Scanner(System.in);
 //			query = s.next();
-			String address = "http://openapi.naver.com/search?key=41e7b6581f7c9d85d41271a9033527d1&query="
-					+ query + "&target=news&start=1&display=100&ds=2000.01.01&de=2001.01.01";
-			
-			
-//			URL url = new URL(address);
-//			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-//			conn.setRequestMethod("GET");
-//
-//			BufferedReader br = new BufferedReader(new InputStreamReader(
-//					url.openStream(), "UTF-8"));
-//			InputStreamReader isr = new InputStreamReader(url.openConnection()
-//					.getInputStream(), "UTF-8");
-//			String jsonResult = "";
-//			while (true) {
-//				String jsonString = br.readLine();
-//				if (jsonString == null)
-//					break;
-//				jsonResult += jsonString;
-//			}
-//			System.out.println(jsonResult);
 
-			Document document = DocumentBuilderFactory.newInstance()
-					.newDocumentBuilder().parse(address);
+			int count = Integer.parseInt(c);
+			int start = 1;
 
-			NodeList itemList = document.getElementsByTagName("item");
-			for (int i = 0; i < itemList.getLength(); i++) {
-				
-				ArrayList<String> line = new ArrayList<String>();
+			for (int j = 0; j < count; j++) {
+				String address = "http://openapi.naver.com/search?key=41e7b6581f7c9d85d41271a9033527d1&query="
+						+ query + "&target=news&start=" + String.valueOf(start) + "&display=100&ds=2000.01.01&de=2001.01.01";
+				start += 100;
+				try {
 
-				Element element = (Element) itemList.item(i);
+				Document document = DocumentBuilderFactory.newInstance()
+						.newDocumentBuilder().parse(address);
 
-				// 기사 제목
-				NodeList titleList = element.getElementsByTagName("title");
-				Element titleElmnt = (Element) titleList.item(0);
-				Node title = titleElmnt.getFirstChild();
-				line.add(title.getNodeValue());
-				
+				NodeList itemList = document.getElementsByTagName("item");
+				for (int i = 0; i < itemList.getLength(); i++) {
 
-				// 설명
-				NodeList descriptionList = element
-						.getElementsByTagName("description");
-				Element descriptionElmnt = (Element) descriptionList.item(0);
-				Node description = descriptionElmnt.getFirstChild();
-				line.add(description.getNodeValue());
-				
+					ArrayList<String> line = new ArrayList<String>();
 
-				// 날짜
-				NodeList dateList = element.getElementsByTagName("pubDate");
-				Element dateElmnt = (Element) dateList.item(0);
-				Node date = dateElmnt.getFirstChild();
-				line.add(date.getNodeValue());
-				
+					Element element = (Element) itemList.item(i);
 
-				// 링크
-				NodeList linkList = element
-						.getElementsByTagName("originallink");
-				Element linkElmnt = (Element) linkList.item(0);
-				Node link = linkElmnt.getFirstChild();
-				line.add(link.getNodeValue());
+					// 기사 제목
+					NodeList titleList = element.getElementsByTagName("title");
+					Element titleElmnt = (Element) titleList.item(0);
+					Node title = titleElmnt.getFirstChild();
+					line.add(title.getNodeValue());
 
-				System.out.println("??"+i);
-				resultString.add(line);
 
+					// 설명
+					NodeList descriptionList = element
+							.getElementsByTagName("description");
+					Element descriptionElmnt = (Element) descriptionList.item(0);
+					Node description = descriptionElmnt.getFirstChild();
+					line.add(description.getNodeValue());
+
+
+					// 날짜
+					NodeList dateList = element.getElementsByTagName("pubDate");
+					Element dateElmnt = (Element) dateList.item(0);
+					Node date = dateElmnt.getFirstChild();
+					line.add(date.getNodeValue());
+
+
+					// 링크
+					NodeList linkList = element
+							.getElementsByTagName("originallink");
+					Element linkElmnt = (Element) linkList.item(0);
+					Node link = linkElmnt.getFirstChild();
+					line.add(link.getNodeValue());
+
+					System.out.println("??" + i);
+					resultString.add(line);
+
+				}
+				System.out.println("testing");
+				excelInput();
+				excelOutput(fileChooser);
+
+			}catch(Exception ex){
+				System.out.println(ex);
 			}
-			System.out.println("testing");
-			excelInput();
-			excelOutput(save_name);
 
-		} catch (Exception ex) {
-			System.out.println(ex);
 		}
 	}
 
 
-
-	public void daumStart(String query, String save_name) {
-		try {
-			// System.out.print("검색할 단어를 입력하세요 : ");
-			// Scanner s = new Scanner(System.in);
-			// query = s.next();
-			String address = "https://apis.daum.net/search/board?apikey=884e32eb590e5137ff5093107c75a9cf&q="
-					+ query + "&output=xml";
-			
-
-			Document document = DocumentBuilderFactory.newInstance()
-					.newDocumentBuilder().parse(address);
-
-			NodeList itemList = document.getElementsByTagName("item");
-			System.out.println(itemList.getLength());
-			for (int i = 0; i < itemList.getLength(); i++) {
-				
-				ArrayList<String> line = new ArrayList<String>();
-
-				Element element = (Element) itemList.item(i);
-
-				// 기사 제목
-				NodeList titleList = element.getElementsByTagName("title");
-				Element titleElmnt = (Element) titleList.item(0);
-				Node title = titleElmnt.getFirstChild();
-//				System.out.println(title.getNodeValue());
-				line.add(title.getNodeValue());
-				
-				
-				
-				// 설명
-				NodeList descriptionList = element
-						.getElementsByTagName("description");
-				Element descriptionElmnt = (Element) descriptionList.item(0);
-				Node description = descriptionElmnt.getFirstChild();
-//				System.out.println(description.getNodeValue());
-				line.add(description.getNodeValue());
-				
-				
-				// 날짜
-				NodeList dateList = element.getElementsByTagName("pubDate");
-				Element dateElmnt = (Element) dateList.item(0);
-				Node date = dateElmnt.getFirstChild();
-				System.out.println(date.getNodeValue());
-				line.add(date.getNodeValue());
-				
-
-				// 링크
-				NodeList linkList = element
-						.getElementsByTagName("link");
-				Element linkElmnt = (Element) linkList.item(0);
-				Node link = linkElmnt.getFirstChild();
-//				System.out.println(link.getNodeValue());
-				line.add(link.getNodeValue());
-
-				System.out.println("??"+i);
-				resultString.add(line);
-
-			}
-			System.out.println("testing");
-			excelInput();
-			excelOutput(save_name);
-
-		} catch (Exception ex) {
-			System.out.println(ex);
-		}
-	}
 	
-	
-	public void excelOutput(String save_name) {
+	public void excelOutput(JFileChooser fileChooser) {
 		try {
+			System.out.println(fileChooser.getSelectedFile().toString()+".xls");
 			// WorkBook 생성
-			WritableWorkbook wb = Workbook.createWorkbook(new File(
-					save_name+".xls"));
+			WritableWorkbook wb = Workbook.createWorkbook(new File(fileChooser.getSelectedFile().toString()+".xls"));
 
 			// WorkSheet 생성
 			WritableSheet sh = wb.createSheet("네이버", 0);
