@@ -31,7 +31,7 @@ import org.w3c.dom.NodeList;
 
 public class Main {
 
-	ArrayList<ArrayList<String>> resultString = new ArrayList<ArrayList<String>>();
+	ArrayList<ArrayList<String>> resultString;
 	List<Map<String, Object>> data;
 	String query;
 //	public static JFileChooser fileChooser = new JFileChooser();
@@ -56,9 +56,11 @@ public class Main {
 //			System.out.print("검색할 단어를 입력하세요 : ");
 //			Scanner s = new Scanner(System.in);
 //			query = s.next();
-
+			resultString = new ArrayList<ArrayList<String>>();
 			int count = Integer.parseInt(c);
 			int start = 1;
+			query = query.replaceAll(" ", "+");
+			query = query.replaceAll("&", "%26");
 
 			for (int j = 0; j < count; j++) {
 				String address = "http://openapi.naver.com/search?key=41e7b6581f7c9d85d41271a9033527d1&query="
@@ -118,6 +120,7 @@ public class Main {
 			}
 
 		}
+		return;
 	}
 
 
@@ -209,6 +212,7 @@ public class Main {
 	
 	public void excelInput(){
 		System.out.println("Excel Input Start");
+
 		data = new ArrayList<Map<String, Object>>();
 		
 		for(int i = 0; i < resultString.size(); i++){

@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Naver_News:jar">
+    <output-path>$PROJECT_DIR$/../t</output-path>
+    <root id="archive" name="Naver_News.jar">
+      <element id="module-output" name="Naver_News" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/jxl.jar" path-in-jar="/" />
+      <element id="library" level="module" name="jxl.jar" module-name="Naver_News" />
+      <element id="library" level="project" name="jxl" />
+    </root>
+  </artifact>
+</component>
